@@ -1,0 +1,138 @@
+import java.io.*;
+import java.sql.*;
+
+public class ExceptionHandlingExamples {
+
+    public static void main(String[] args) {
+        // Checked Exceptions
+        triggerIOException();
+        triggerFileNotFoundException();
+        triggerEOFException();
+        triggerSQLException();
+        triggerClassNotFoundException();
+
+        // Unchecked Exceptions
+        triggerArithmeticException();
+        triggerNullPointerException();
+        triggerArrayIndexOutOfBoundsException();
+        triggerClassCastException();
+        triggerIllegalArgumentException();
+        triggerNumberFormatException();
+    }
+
+    // 1. IOException Example
+    private static void triggerIOException() {
+        try {
+            // Attempt to read a non-existent file
+            BufferedReader reader = new BufferedReader(new FileReader("non_existent_file.txt"));
+        } catch (IOException e) {
+            System.out.println("IOException caught: " + e.getMessage());
+        }
+    }
+
+    // 2. FileNotFoundException Example
+    private static void triggerFileNotFoundException() {
+        try {
+            // Attempt to open a file that doesn’t exist
+            FileInputStream fis = new FileInputStream("non_existent_file.txt");
+        } catch (FileNotFoundException e) {
+            System.out.println("FileNotFoundException caught: " + e.getMessage());
+        }
+    }
+
+    // 3. EOFException Example
+    private static void triggerEOFException() {
+        try (DataInputStream dis = new DataInputStream(new FileInputStream("empty_file.txt"))) {
+            dis.readUTF(); // Attempt to read beyond the file's content
+        } catch (EOFException e) {
+            System.out.println("EOFException caught: " + e.getMessage());
+        } catch (IOException e) {
+            System.out.println("IOException caught: " + e.getMessage());
+        }
+    }
+
+    // 4. SQLException Example
+    private static void triggerSQLException() {
+        try {
+            // Attempt to connect to a non-existent database
+            DriverManager.getConnection("jdbc:invalid://localhost:3306/testdb");
+        } catch (SQLException e) {
+            System.out.println("SQLException caught: " + e.getMessage());
+        }
+    }
+
+    // 5. ClassNotFoundException Example
+    private static void triggerClassNotFoundException() {
+        try {
+            // Attempt to load a missing class
+            Class.forName("com.nonexistent.Class");
+        } catch (ClassNotFoundException e) {
+            System.out.println("ClassNotFoundException caught: " + e.getMessage());
+        }
+    }
+
+    // 6. ArithmeticException Example
+    private static void triggerArithmeticException() {
+        try {
+            // Division by zero
+            int result = 10 / 0;
+        } catch (ArithmeticException e) {
+            System.out.println("ArithmeticException caught: " + e.getMessage());
+        }
+    }
+
+    // 7. NullPointerException Example
+    private static void triggerNullPointerException() {
+        try {
+            // Accessing a null reference
+            String str = null;
+            System.out.println(str.length());
+        } catch (NullPointerException e) {
+            System.out.println("NullPointerException caught: " + e.getMessage());
+        }
+    }
+
+    // 8. ArrayIndexOutOfBoundsException Example
+    private static void triggerArrayIndexOutOfBoundsException() {
+        try {
+            // Accessing an invalid array index
+            int[] arr = {1, 2, 3};
+            System.out.println(arr[5]);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println("ArrayIndexOutOfBoundsException caught: " + e.getMessage());
+        }
+    }
+
+    // 9. ClassCastException Example
+    private static void triggerClassCastException() {
+        try {
+            // Invalid type cast
+            Object obj = new Integer(10);
+            String str = (String) obj;
+        } catch (ClassCastException e) {
+            System.out.println("ClassCastException caught: " + e.getMessage());
+        }
+    }
+
+    // 10. IllegalArgumentException Example
+    private static void triggerIllegalArgumentException() {
+        try {
+            // Passing an invalid argument
+            Thread.sleep(-1000);
+        } catch (IllegalArgumentException e) {
+            System.out.println("IllegalArgumentException caught: " + e.getMessage());
+        } catch (InterruptedException e) {
+            System.out.println("InterruptedException caught: " + e.getMessage());
+        }
+    }
+
+    // 11. NumberFormatException Example
+    private static void triggerNumberFormatException() {
+        try {
+            // Attempting to convert an invalid string to a number
+            int num = Integer.parseInt("invalid");
+        } catch (NumberFormatException e) {
+            System.out.println("NumberFormatException caught: " + e.getMessage());
+        }
+    }
+}
